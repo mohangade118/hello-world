@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  php-nginx:
+    build:
+      context: ./docker/php-nginx
+    container_name: symfony_php
+    ports:
+      - "8080:80"
+    volumes:
+      - ./symfony:/var/www/html
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.4
+    container_name: symfony_mysql1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
